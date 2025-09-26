@@ -26,6 +26,7 @@ GH_TUPLE=	azahar-emu:ext-boost:3c27c785ad0f8a742af02e620dc225673f3a12d8:extboost
 		neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/externals/nihstro \
         	azahar-emu:soundtouch:2.3.3-9-g9ef8458:soundtouch/externals/soundtouch \
         	catchorg:Catch2:v3.8.0:Catch2/externals/catch2 \
+		facebook:zstd:v1.4.8:zstd/externals/zstd \
         	azahar-emu:dynarmic:278405bd71999ed3f3c77c5f78344a06fef798b9:dynarmic/externals/dynarmic \
         	herumi:xbyak:v3.71-1460-g0d67fd1:xbyak/externals/xbyak \
         	fmtlib:fmt:123913715afeb8a437e6388b4473fcc4753e1c9a:fmt/externals/fmt \
@@ -36,9 +37,9 @@ GH_TUPLE=	azahar-emu:ext-boost:3c27c785ad0f8a742af02e620dc225673f3a12d8:extboost
         	arun11299:cpp-jwt:4a970bc302d671476122cbc6b43cc89fbf4a96ec:cppjwt/externals/cpp-jwt \
         	wwylele:teakra:01db7cdd00aabcce559a8dddce8798dabb71949b:teakra/externals/teakra \
 		lvandeve:lodepng:0b1d9ccfc2093e5d6620cd9a11d03ee6ff6705f5:lodepng/externals/lodepng/lodepng \
-        	facebook:zstd:v1.5.7:zstd/externals/zstd \
         	lemenkov:libyuv:6f729fbe658a40dfd993fa8b22bd612bb17cde5c:libyuv/externals/libyuv \
         	weidai11:cryptopp:CRYPTOPP_8_9_0-19-g60f81a77:cryptopp/externals/cryptopp \
+		abdes:cryptopp-cmake:CRYPTOPP_8_9_0-20-g00a151f:cryptoppcmake/externals/cryptopp-cmake \
         	septag:dds-ktx:c3ca8febc2457ab5c581604f3236a8a511fc2e45:ddsktx/externals/dds-ktx \
         	KhronosGroup:glslang:11.1.0-1230-gfc9889c8:glslang/externals/glslang \
         	GPUOpen-LibrariesAndSDKs:VulkanMemoryAllocator:v2.1.0-933-gc788c52:VulkanMemoryAllocator/externals/vma \
@@ -51,25 +52,22 @@ GH_TUPLE=	azahar-emu:ext-boost:3c27c785ad0f8a742af02e620dc225673f3a12d8:extboost
         	KhronosGroup:SPIRV-Tools:v2022.4-759-ga62abcb4:SPIRVTools/externals/spirv-tools \
         	KhronosGroup:SPIRV-Headers:1.5.4.raytracing.fixed-411-gaa6cef1:SPIRVHeaders/externals/spirv-headers \
         	arsenm:sanitizers-cmake:aab6948fa863bc1cbe5d0850bc46b9ef02ed4c1a:sanitizerscmake/externals/cubeb/cmake/sanitizers-cmake \
-        	catchorg:Catch2:v3.8.0-1-g76f70b14:Catch2/externals/dynarmic/externals/catch \
-        	fmtlib:fmt:7b273fbb541c7c9058800bc613f4291274b2d26e:fmt/externals/dynarmic/externals/fmt \
-        	herumi:xbyak:v3.71-1479-g860169b:xbyak/externals/dynarmic/externals/xbyak \
-        	KhronosGroup:SPIRV-Headers:1.5.4.raytracing.fixed-386-g3f17b2a:SPIRVHeaders/externals/sirit/sirit/externals/SPIRV-Headers
+		azahar-emu:mcl:7b08d83418f628b800dfac1c9a16c3f59036fbad:mcl/externals/dynarmic/externals/mcl \
+		Tessil:robin-map:054ec5ad67440fcd65e0497e5a27ef31f53fcc7f:robinmap/externals/dynarmic/externals/robin-map \
+		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zydis/externals/dynarmic/externals/zydis \
+		zyantific:zycore-c:0b2432ced0884fd152b471d97ecf0258ff4d859f:zycorec/externals/dynarmic/externals/zycore
 
 USES=		cmake:testing compiler:c++17-lang localbase:ldflags sdl
 USE_SDL=	sdl2
 CMAKE_ON=	USE_SYSTEM_BOOST Boost_USE_STATIC_LIBS
 LDFLAGS+=	-Wl,--as-needed # Qt5Network
 
-OPTIONS_DEFINE=	ALSA FFMPEG PULSEAUDIO JACK QT6 SNDIO
-OPTIONS_DEFAULT=FFMPEG PULSEAUDIO JACK QT6 SNDIO
-OPTIONS_MULTI=	GUI
-OPTIONS_MULTI_GUI=	QT6 SDL
-OPTIONS_SLAVE?=	SDL
-OPTIONS_EXCLUDE:=	${OPTIONS_MULTI_GUI}
+OPTIONS_DEFINE=	ALSA FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO
+OPTIONS_DEFAULT=FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO
 
 CMAKE_ARGS+=		-DENABLE_OPENAL:BOOL=OFF \
-			-DENABLE_LIBUSB:BOOL=OFF
+			-DENABLE_LIBUSB:BOOL=OFF \
+			-DUSE_SYSTEM_SDL2:BOOL=ON 
 
 ALSA_BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib
 ALSA_CMAKE_BOOL=	USE_ALSA
@@ -87,19 +85,10 @@ SNDIO_BUILD_DEPENDS=	sndio>0:audio/sndio
 SNDIO_CMAKE_BOOL=	USE_SNDIO
 
 SDL_CMAKE_BOOL=	ENABLE_SDL2
-SDL_PLIST_FILES=bin/${PORTNAME} \
-		bin/${PORTNAME}-room \
-		share/man/man6/${PORTNAME}.6.gz
 
 QT6_USES=	desktop-file-utils qt:6 shared-mime-info
-QT6_USE=	QT=qmake:build,buildtools:build,linguisttools:build,concurrent:build,core,gui,multimedia,widgets
+USE_QT+=	base multimedia
 QT6_CMAKE_BOOL=	ENABLE_QT ENABLE_QT_TRANSLATION
-QT6_PLIST_FILES=bin/${PORTNAME}-qt \
-		"@comment bin/${PORTNAME}-room" \
-		share/applications/${PORTNAME}.desktop \
-		share/icons/hicolor/scalable/apps/${PORTNAME}.svg \
-		share/man/man6/${PORTNAME}-qt.6.gz \
-		share/mime/packages/${PORTNAME}.xml
 
 .include <bsd.port.pre.mk>
 
@@ -111,9 +100,5 @@ post-patch:
 	@${REINPLACE_CMD} -e 's|std::unary_function|std::__unary_function|' \
 		${WRKSRC}/externals/boost/boost/container_hash/hash.hpp
 .endif
-
-post-configure:
-	@${CP} ${_DISTDIR}/${PORTNAME}-${DISTVERSIONFULL}/compatibility_list.json \
-		${BUILD_WRKSRC}/dist/compatibility_list/
 
 .include <bsd.port.post.mk>
