@@ -61,7 +61,8 @@ GH_TUPLE=	azahar-emu:ext-boost:3c27c785ad0f8a742af02e620dc225673f3a12d8:extboost
 		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zydis/externals/dynarmic/externals/zydis \
 		zyantific:zycore-c:0b2432ced0884fd152b471d97ecf0258ff4d859f:zycorec/externals/dynarmic/externals/zycore
 
-USES=		cmake:testing compiler:c++17-lang localbase:ldflags sdl
+USES=		cmake:testing compiler:c++17-lang localbase:ldflags pkgconfig \
+		sdl
 USE_SDL=	sdl2
 CMAKE_ON=	USE_SYSTEM_BOOST Boost_USE_STATIC_LIBS
 LDFLAGS+=	-Wl,--as-needed # Qt5Network
