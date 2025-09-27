@@ -92,7 +92,7 @@ SNDIO_CMAKE_BOOL=	USE_SNDIO
 SDL_CMAKE_BOOL=	ENABLE_SDL2
 
 QT6_USES=	desktop-file-utils qt:6 shared-mime-info
-USE_QT+=	base multimedia
+USE_QT+=	base multimedia tools
 QT6_CMAKE_BOOL=	ENABLE_QT ENABLE_QT_TRANSLATION
 
 .include <bsd.port.pre.mk>
