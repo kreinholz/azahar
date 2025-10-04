@@ -2,8 +2,6 @@ PORTNAME=	azahar
 PORTVERSION=	2123.2
 CATEGORIES=	emulators
 
-AZAHAR_VERSION=	2123.2
-
 MAINTAINER=	kreinholz@gmail.com
 COMMENT=	Nintendo 3DS emulator/debugger
 WWW=		https://azahar-emu.org
@@ -100,9 +98,8 @@ QT6_CMAKE_BOOL=	ENABLE_QT ENABLE_QT_TRANSLATION
 post-patch:
 	@${REINPLACE_CMD} -e 's/@GIT_BRANCH@/master/' \
 		-e 's/@GIT_DESC@/${GH_TAGNAME}/' \
+		-e 's/@BUILD_FULLNAME@/${PORTVERSION}/' \
 		${WRKSRC}/src/common/scm_rev.cpp.in
-	@${REINPLACE_CMD} -e 's|%%AZAHAR_VERSION%%|${AZAHAR_VERSION}|' \
-		${WRKSRC}/GIT_TAG
 .if ${COMPILER_TYPE} == clang
 	@${REINPLACE_CMD} -e 's|std::unary_function|std::__unary_function|' \
 		${WRKSRC}/externals/boost/boost/container_hash/hash.hpp
