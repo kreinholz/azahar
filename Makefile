@@ -8,7 +8,6 @@ WWW=		https://azahar-emu.org
 
 LICENSE=	BSD2CLAUSE BSD3CLAUSE BSL GPLv2+ ISCL LGPL21+ MIT OpenSSL UNLICENSE
 LICENSE_COMB=	multi
-LICENSE_FILE_BSD2CLAUSE=${WRKSRC}/externals/fmt/LICENSE
 LICENSE_FILE_BSD3CLAUSE=${WRKSRC}/externals/inih/inih/LICENSE.txt
 LICENSE_FILE_GPLv2+ =	${WRKSRC}/license.txt
 LICENSE_FILE_ISCL=	${WRKSRC}/externals/cubeb/LICENSE
@@ -20,7 +19,8 @@ BROKEN_aarch64=	build fails on aarch64 with system boost-libs
 
 BUILD_DEPENDS=	boost-libs>0:devel/boost-libs
 
-LIB_DEPENDS=	libCatch2.so:devel/catch2
+LIB_DEPENDS=	libCatch2.so:devel/catch2 \
+		libfmt.so:devel/libfmt
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	azahar-emu
@@ -30,7 +30,6 @@ GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/exte
 		facebook:zstd:v1.4.8:zstd/externals/zstd \
         	azahar-emu:dynarmic:278405bd71999ed3f3c77c5f78344a06fef798b9:dynarmic/externals/dynarmic \
         	herumi:xbyak:v3.71-1460-g0d67fd1:xbyak/externals/xbyak \
-        	fmtlib:fmt:123913715afeb8a437e6388b4473fcc4753e1c9a:fmt/externals/fmt \
         	lsalzman:enet:v1.3.15-47-g2662c0d:enet/externals/enet \
         	benhoyt:inih:5cc5e2c24642513aaa5b19126aad42d0e4e0923e:inih/externals/inih/inih \
         	azahar-emu:ext-libressl-portable:88b8e41b71099fabc57813bc06d8bc1aba050a19:extlibresslportable/externals/libressl \
@@ -39,7 +38,7 @@ GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/exte
         	wwylele:teakra:01db7cdd00aabcce559a8dddce8798dabb71949b:teakra/externals/teakra \
 		lvandeve:lodepng:0b1d9ccfc2093e5d6620cd9a11d03ee6ff6705f5:lodepng/externals/lodepng/lodepng \
         	lemenkov:libyuv:6f729fbe658a40dfd993fa8b22bd612bb17cde5c:libyuv/externals/libyuv \
-        	weidai11:cryptopp:CRYPTOPP_8_9_0-19-g60f81a77:cryptopp/externals/cryptopp \
+		weidai11:cryptopp:CRYPTOPP_8_9_0-19-g60f81a77:cryptopp/externals/cryptopp \
 		abdes:cryptopp-cmake:CRYPTOPP_8_9_0-20-g00a151f:cryptoppcmake/externals/cryptopp-cmake \
         	septag:dds-ktx:c3ca8febc2457ab5c581604f3236a8a511fc2e45:ddsktx/externals/dds-ktx \
         	KhronosGroup:glslang:11.1.0-1230-gfc9889c8:glslang/externals/glslang \
@@ -62,7 +61,7 @@ USES=		cmake:testing compiler:c++17-lang localbase:ldflags pkgconfig \
 		sdl
 USE_SDL=	sdl2
 CMAKE_ON=	USE_SYSTEM_BOOST Boost_USE_STATIC_LIBS USE_SYSTEM_CATCH2 \
-		USE_SYSTEM_SDL2
+		USE_SYSTEM_FMT USE_SYSTEM_SDL2
 LDFLAGS+=	-Wl,--as-needed
 
 OPTIONS_DEFINE=	ALSA FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO
