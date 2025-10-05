@@ -24,8 +24,7 @@ BUILD_DEPENDS=	boost-libs>0:devel/boost-libs
 USE_GITHUB=	yes
 GH_ACCOUNT=	azahar-emu
 GH_TAGNAME=	2123.2
-GH_TUPLE=	azahar-emu:ext-boost:3c27c785ad0f8a742af02e620dc225673f3a12d8:extboost/externals/boost \
-		neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/externals/nihstro \
+GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/externals/nihstro \
         	azahar-emu:soundtouch:2.3.3-9-g9ef8458:soundtouch/externals/soundtouch \
         	catchorg:Catch2:v3.8.0:Catch2/externals/catch2 \
 		facebook:zstd:v1.4.8:zstd/externals/zstd \
@@ -100,9 +99,5 @@ post-patch:
 		-e 's/@GIT_DESC@/${GH_TAGNAME}/' \
 		-e 's/@BUILD_FULLNAME@/${PORTVERSION}/' \
 		${WRKSRC}/src/common/scm_rev.cpp.in
-.if ${COMPILER_TYPE} == clang
-	@${REINPLACE_CMD} -e 's|std::unary_function|std::__unary_function|' \
-		${WRKSRC}/externals/boost/boost/container_hash/hash.hpp
-.endif
 
 .include <bsd.port.post.mk>
