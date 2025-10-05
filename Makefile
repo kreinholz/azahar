@@ -16,7 +16,10 @@ BROKEN_aarch64=	build fails on aarch64 with system boost-libs
 
 BUILD_DEPENDS=	boost-libs>0:devel/boost-libs \
 		xbyak>0:devel/xbyak \
-		nlohmann-json>0:devel/nlohmann-json
+		nlohmann-json>0:devel/nlohmann-json \
+		cpp-httplib>0:www/cpp-httplib \
+		glslang>0:graphics/glslang \
+		vulkan-headers>0:graphics/vulkan-headers
 
 LIB_DEPENDS=	libCatch2.so:devel/catch2 \
 		libfmt.so:devel/libfmt \
@@ -39,9 +42,7 @@ GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/exte
 		weidai11:cryptopp:CRYPTOPP_8_9_0-19-g60f81a77:cryptopp/externals/cryptopp \
 		abdes:cryptopp-cmake:CRYPTOPP_8_9_0-20-g00a151f:cryptoppcmake/externals/cryptopp-cmake \
         	septag:dds-ktx:c3ca8febc2457ab5c581604f3236a8a511fc2e45:ddsktx/externals/dds-ktx \
-        	KhronosGroup:glslang:11.1.0-1230-gfc9889c8:glslang/externals/glslang \
         	GPUOpen-LibrariesAndSDKs:VulkanMemoryAllocator:v2.1.0-933-gc788c52:VulkanMemoryAllocator/externals/vma \
-        	KhronosGroup:Vulkan-Headers:v1.4.313:VulkanHeaders/externals/vulkan-headers \
 		azahar-emu:sirit:37d49d2aa4c0a62f872720d6e5f2eaf90b2c95fa:sirit/externals/sirit/sirit \
         	knik0:faad2:216f00e8ddba6f2c64caf481a04f1ddd78b93e78:faad2/externals/faad2/faad2 \
         	azahar-emu:ext-library-headers:3b3e28dbe6d033395ce2967fa8030825e7b89de7:extlibraryheaders/externals/library-headers \
@@ -61,7 +62,8 @@ USE_SDL=	sdl2
 CMAKE_ON=	USE_SYSTEM_BOOST Boost_USE_STATIC_LIBS USE_SYSTEM_CATCH2 \
 		USE_SYSTEM_FMT USE_SYSTEM_XBYAK USE_SYSTEM_INIH \
 		USE_SYSTEM_SOUNDTOUCH USE_SYSTEM_SDL2 USE_SYSTEM_ENET \
-		USE_SYSTEM_JSON
+		USE_SYSTEM_JSON USE_SYSTEM_CPP_HTTPLIB USE_SYSTEM_GLSLANG \
+		USE_SYSTEM_VULKAN_HEADERS
 LDFLAGS+=	-Wl,--as-needed
 
 OPTIONS_DEFINE=	ALSA FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO
