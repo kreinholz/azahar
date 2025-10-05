@@ -14,7 +14,6 @@ LICENSE_FILE_ISCL=	${WRKSRC}/externals/cubeb/LICENSE
 BROKEN_aarch64=	build fails on aarch64 with system boost-libs
 
 BUILD_DEPENDS=	boost-libs>0:devel/boost-libs \
-		xbyak>0:devel/xbyak \
 		nlohmann-json>0:devel/nlohmann-json \
 		cpp-httplib>0:www/cpp-httplib \
 		glslang>0:graphics/glslang \
@@ -32,6 +31,7 @@ GH_TAGNAME=	2123.2
 GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/externals/nihstro \
 		facebook:zstd:v1.4.8:zstd/externals/zstd \
         	azahar-emu:dynarmic:278405bd71999ed3f3c77c5f78344a06fef798b9:dynarmic/externals/dynarmic \
+		herumi:xbyak:v3.71-1460-g0d67fd1:xbyak/externals/xbyak \
         	mozilla:cubeb:832fcf38e600bf80b4b728a3e0227403088d992c:cubeb/externals/cubeb \
         	arun11299:cpp-jwt:4a970bc302d671476122cbc6b43cc89fbf4a96ec:cppjwt/externals/cpp-jwt \
         	wwylele:teakra:01db7cdd00aabcce559a8dddce8798dabb71949b:teakra/externals/teakra \
@@ -58,17 +58,18 @@ USES=		cmake:testing compiler:c++17-lang localbase:ldflags pkgconfig \
 		sdl
 USE_SDL=	sdl2
 CMAKE_ON=	USE_SYSTEM_BOOST Boost_USE_STATIC_LIBS USE_SYSTEM_CATCH2 \
-		USE_SYSTEM_FMT USE_SYSTEM_XBYAK USE_SYSTEM_INIH \
-		USE_SYSTEM_SOUNDTOUCH USE_SYSTEM_SDL2 USE_SYSTEM_ENET \
-		USE_SYSTEM_JSON USE_SYSTEM_OPENSSL USE_SYSTEM_CPP_HTTPLIB \
-		USE_SYSTEM_GLSLANG USE_SYSTEM_VULKAN_HEADERS
+		USE_SYSTEM_FMT USE_SYSTEM_INIH USE_SYSTEM_SOUNDTOUCH \
+		USE_SYSTEM_SDL2 USE_SYSTEM_ENET USE_SYSTEM_JSON \
+		USE_SYSTEM_OPENSSL USE_SYSTEM_CPP_HTTPLIB USE_SYSTEM_GLSLANG \
+		USE_SYSTEM_VULKAN_HEADERS
 LDFLAGS+=	-Wl,--as-needed
 
-OPTIONS_DEFINE=	ALSA FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO
+OPTIONS_DEFINE=	ALSA FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO VULKAN
 OPTIONS_DEFAULT=FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO
 
 CMAKE_ARGS+=		-DENABLE_OPENAL:BOOL=OFF \
-			-DENABLE_LIBUSB:BOOL=OFF
+			-DENABLE_LIBUSB:BOOL=OFF \
+			-DENABLE_VULKAN:BOOL=OFF
 
 ALSA_BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib
 ALSA_CMAKE_BOOL=	USE_ALSA
@@ -84,6 +85,9 @@ PULSEAUDIO_CMAKE_BOOL=	USE_PULSE
 
 SNDIO_BUILD_DEPENDS=	sndio>0:audio/sndio
 SNDIO_CMAKE_BOOL=	USE_SNDIO
+
+VULKAN_BUILD_DEPENDS=	vulkan-headers>0:graphics/vulkan-headers
+VULKAN_CMAKE_BOOL=	ENABLE_VULKAN
 
 SDL_CMAKE_BOOL=	ENABLE_SDL2
 
