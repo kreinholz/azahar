@@ -17,7 +17,8 @@ LICENSE_FILE_OpenSSL=	${WRKSRC}/externals/libressl/COPYING
 
 BROKEN_aarch64=	build fails on aarch64 with system boost-libs
 
-BUILD_DEPENDS=	boost-libs>0:devel/boost-libs
+BUILD_DEPENDS=	boost-libs>0:devel/boost-libs \
+		xbyak>0:devel/xbyak
 
 LIB_DEPENDS=	libCatch2.so:devel/catch2 \
 		libfmt.so:devel/libfmt
@@ -29,7 +30,6 @@ GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/exte
         	azahar-emu:soundtouch:2.3.3-9-g9ef8458:soundtouch/externals/soundtouch \
 		facebook:zstd:v1.4.8:zstd/externals/zstd \
         	azahar-emu:dynarmic:278405bd71999ed3f3c77c5f78344a06fef798b9:dynarmic/externals/dynarmic \
-        	herumi:xbyak:v3.71-1460-g0d67fd1:xbyak/externals/xbyak \
         	lsalzman:enet:v1.3.15-47-g2662c0d:enet/externals/enet \
         	benhoyt:inih:5cc5e2c24642513aaa5b19126aad42d0e4e0923e:inih/externals/inih/inih \
         	azahar-emu:ext-libressl-portable:88b8e41b71099fabc57813bc06d8bc1aba050a19:extlibresslportable/externals/libressl \
@@ -61,7 +61,7 @@ USES=		cmake:testing compiler:c++17-lang localbase:ldflags pkgconfig \
 		sdl
 USE_SDL=	sdl2
 CMAKE_ON=	USE_SYSTEM_BOOST Boost_USE_STATIC_LIBS USE_SYSTEM_CATCH2 \
-		USE_SYSTEM_FMT USE_SYSTEM_SDL2
+		USE_SYSTEM_FMT USE_SYSTEM_XBYAK USE_SYSTEM_SDL2
 LDFLAGS+=	-Wl,--as-needed
 
 OPTIONS_DEFINE=	ALSA FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO
