@@ -86,6 +86,7 @@ PULSEAUDIO_CMAKE_BOOL=	USE_PULSE
 SNDIO_BUILD_DEPENDS=	sndio>0:audio/sndio
 SNDIO_CMAKE_BOOL=	USE_SNDIO
 
+VULKAN_DESC=		Vulkan renderer (experimental)
 VULKAN_BUILD_DEPENDS=	vulkan-headers>0:graphics/vulkan-headers
 VULKAN_CMAKE_BOOL=	ENABLE_VULKAN
 
