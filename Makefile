@@ -1,5 +1,5 @@
 PORTNAME=	azahar
-PORTVERSION=	2123.2
+PORTVERSION=	2123.3
 CATEGORIES=	emulators
 
 MAINTAINER=	kreinholz@gmail.com
@@ -27,7 +27,7 @@ LIB_DEPENDS=	libCatch2.so:devel/catch2 \
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	azahar-emu
-GH_TAGNAME=	2123.2
+GH_TAGNAME=	2123.3
 GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/externals/nihstro \
 		facebook:zstd:v1.4.8:zstd/externals/zstd \
         	azahar-emu:dynarmic:278405bd71999ed3f3c77c5f78344a06fef798b9:dynarmic/externals/dynarmic \
