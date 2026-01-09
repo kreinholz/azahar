@@ -1,10 +1,6 @@
 PORTNAME=	azahar
-DISTVERSION=	2123.3
-PORTREVISION=	1
+DISTVERSION=	2123.4.1
 CATEGORIES=	emulators
-
-PATCH_SITES=	https://github.com/azahar-emu/azahar/commit/
-PATCHFILES=	1f483e1d335374482845d0325ac8b13af3162c53.patch:-p1
 
 MAINTAINER=	kreinholz@gmail.com
 COMMENT=	Nintendo 3DS emulator/debugger
@@ -31,14 +27,14 @@ LIB_DEPENDS=	libCatch2.so:devel/catch2 \
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	azahar-emu
-GH_TAGNAME=	2123.3
+GH_TAGNAME=	2123.4.1
 GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/externals/nihstro \
-		facebook:zstd:v1.4.8:zstd/externals/zstd \
+		facebook:zstd:v1.5.7:zstd/externals/zstd \
         	azahar-emu:dynarmic:278405bd71999ed3f3c77c5f78344a06fef798b9:dynarmic/externals/dynarmic \
 		herumi:xbyak:v3.71-1460-g0d67fd1:xbyak/externals/xbyak \
         	mozilla:cubeb:832fcf38e600bf80b4b728a3e0227403088d992c:cubeb/externals/cubeb \
         	arun11299:cpp-jwt:4a970bc302d671476122cbc6b43cc89fbf4a96ec:cppjwt/externals/cpp-jwt \
-        	wwylele:teakra:01db7cdd00aabcce559a8dddce8798dabb71949b:teakra/externals/teakra \
+		wwylele:teakra:3d697a18df504f4677b65129d9ab14c7c597e3eb:teakra/externals/teakra \
 		lvandeve:lodepng:0b1d9ccfc2093e5d6620cd9a11d03ee6ff6705f5:lodepng/externals/lodepng/lodepng \
         	lemenkov:libyuv:6f729fbe658a40dfd993fa8b22bd612bb17cde5c:libyuv/externals/libyuv \
 		weidai11:cryptopp:CRYPTOPP_8_9_0-19-g60f81a77:cryptopp/externals/cryptopp \
@@ -49,7 +45,7 @@ GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/exte
         	knik0:faad2:216f00e8ddba6f2c64caf481a04f1ddd78b93e78:faad2/externals/faad2/faad2 \
         	azahar-emu:ext-library-headers:3b3e28dbe6d033395ce2967fa8030825e7b89de7:extlibraryheaders/externals/library-headers \
         	merryhime:oaknut:6b1d57ea7ed4882d32a91eeaa6557b0ecb4da152:oaknut/externals/oaknut \
-        	azahar-emu:compatibility-list:a36decbe43d0e5a570ac3d3ba9a0b226dc832a17:compatibilitylist/dist/compatibility_list \
+		azahar-emu:compatibility-list:eadcdfb84b6f3b95734e867d99fe16a9e8db717f:compatibilitylist/dist/compatibility_list \
         	KhronosGroup:SPIRV-Tools:v2022.4-759-ga62abcb4:SPIRVTools/externals/spirv-tools \
         	KhronosGroup:SPIRV-Headers:1.5.4.raytracing.fixed-411-gaa6cef1:SPIRVHeaders/externals/spirv-headers \
         	arsenm:sanitizers-cmake:aab6948fa863bc1cbe5d0850bc46b9ef02ed4c1a:sanitizerscmake/externals/cubeb/cmake/sanitizers-cmake \
@@ -69,11 +65,10 @@ CMAKE_ON=	USE_SYSTEM_BOOST Boost_USE_STATIC_LIBS USE_SYSTEM_CATCH2 \
 LDFLAGS+=	-Wl,--as-needed
 
 OPTIONS_DEFINE=		ALSA FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO VULKAN
-OPTIONS_DEFAULT=	FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO
+OPTIONS_DEFAULT=	FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO VULKAN
 
 CMAKE_ARGS+=		-DENABLE_OPENAL:BOOL=OFF \
-			-DENABLE_LIBUSB:BOOL=OFF \
-			-DENABLE_VULKAN:BOOL=OFF
+			-DENABLE_LIBUSB:BOOL=OFF 
 
 ALSA_BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib
 ALSA_CMAKE_BOOL=	USE_ALSA
