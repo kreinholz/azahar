@@ -1,5 +1,5 @@
 PORTNAME=	azahar
-DISTVERSION=	2123.4.1
+DISTVERSION=	2124
 CATEGORIES=	emulators
 
 MAINTAINER=	kreinholz@gmail.com
@@ -27,18 +27,18 @@ LIB_DEPENDS=	libCatch2.so:devel/catch2 \
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	azahar-emu
-GH_TAGNAME=	2123.4.1
+GH_TAGNAME=	2124
 GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/externals/nihstro \
-		facebook:zstd:v1.5.7:zstd/externals/zstd \
-        	azahar-emu:dynarmic:278405bd71999ed3f3c77c5f78344a06fef798b9:dynarmic/externals/dynarmic \
+		azahar-emu:dynarmic:526227eebe1efff3fb14dbf494b9c5b44c2e9c1f:dynarmic/externals/dynarmic \
 		herumi:xbyak:v3.71-1460-g0d67fd1:xbyak/externals/xbyak \
         	mozilla:cubeb:832fcf38e600bf80b4b728a3e0227403088d992c:cubeb/externals/cubeb \
         	arun11299:cpp-jwt:4a970bc302d671476122cbc6b43cc89fbf4a96ec:cppjwt/externals/cpp-jwt \
 		wwylele:teakra:3d697a18df504f4677b65129d9ab14c7c597e3eb:teakra/externals/teakra \
 		lvandeve:lodepng:0b1d9ccfc2093e5d6620cd9a11d03ee6ff6705f5:lodepng/externals/lodepng/lodepng \
+		facebook:zstd:v1.5.7:zstd/externals/zstd \
         	lemenkov:libyuv:6f729fbe658a40dfd993fa8b22bd612bb17cde5c:libyuv/externals/libyuv \
-		weidai11:cryptopp:CRYPTOPP_8_9_0-19-g60f81a77:cryptopp/externals/cryptopp \
 		abdes:cryptopp-cmake:CRYPTOPP_8_9_0-20-g00a151f:cryptoppcmake/externals/cryptopp-cmake \
+		weidai11:cryptopp:CRYPTOPP_8_9_0-19-g60f81a77:cryptopp/externals/cryptopp \
         	septag:dds-ktx:c3ca8febc2457ab5c581604f3236a8a511fc2e45:ddsktx/externals/dds-ktx \
         	GPUOpen-LibrariesAndSDKs:VulkanMemoryAllocator:v2.1.0-933-gc788c52:VulkanMemoryAllocator/externals/vma \
 		azahar-emu:sirit:37d49d2aa4c0a62f872720d6e5f2eaf90b2c95fa:sirit/externals/sirit/sirit \
@@ -49,10 +49,11 @@ GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/exte
         	KhronosGroup:SPIRV-Tools:v2022.4-759-ga62abcb4:SPIRVTools/externals/spirv-tools \
         	KhronosGroup:SPIRV-Headers:1.5.4.raytracing.fixed-411-gaa6cef1:SPIRVHeaders/externals/spirv-headers \
         	arsenm:sanitizers-cmake:aab6948fa863bc1cbe5d0850bc46b9ef02ed4c1a:sanitizerscmake/externals/cubeb/cmake/sanitizers-cmake \
-		azahar-emu:mcl:7b08d83418f628b800dfac1c9a16c3f59036fbad:mcl/externals/dynarmic/externals/mcl \
+		azahar-emu:mcl:5fc4beaf331037649b10625736b41365defb4f50:mcl/externals/dynarmic/externals/mcl \
 		Tessil:robin-map:054ec5ad67440fcd65e0497e5a27ef31f53fcc7f:robinmap/externals/dynarmic/externals/robin-map \
+		zyantific:zycore-c:0b2432ced0884fd152b471d97ecf0258ff4d859f:zycorec/externals/dynarmic/externals/zycore \
 		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zydis/externals/dynarmic/externals/zydis \
-		zyantific:zycore-c:0b2432ced0884fd152b471d97ecf0258ff4d859f:zycorec/externals/dynarmic/externals/zycore
+		Cyan4973:xxHash:e626a72bc2321cd320e953a0ccf1584cad60f363:xxHash/externals/xxHash
 
 USES=		cmake:testing compiler:c++17-lang localbase:ldflags pkgconfig \
 		sdl
