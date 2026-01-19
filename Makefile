@@ -93,7 +93,7 @@ VULKAN_CMAKE_BOOL=	ENABLE_VULKAN
 SDL_CMAKE_BOOL=	ENABLE_SDL2
 
 QT6_USES=	desktop-file-utils qt:6 shared-mime-info
-USE_QT+=	base multimedia tools
+USE_QT+=	base multimedia tools translations svg
 QT6_CMAKE_BOOL=	ENABLE_QT ENABLE_QT_TRANSLATION
 
 .include <bsd.port.pre.mk>
