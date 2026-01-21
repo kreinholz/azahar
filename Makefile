@@ -1,5 +1,5 @@
 PORTNAME=	azahar
-DISTVERSION=	2124
+DISTVERSION=	2124.1
 CATEGORIES=	emulators
 
 MAINTAINER=	kreinholz@gmail.com
@@ -27,7 +27,7 @@ LIB_DEPENDS=	libCatch2.so:devel/catch2 \
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	azahar-emu
-GH_TAGNAME=	2124
+GH_TAGNAME=	2124.1
 GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/externals/nihstro \
 		azahar-emu:dynarmic:526227eebe1efff3fb14dbf494b9c5b44c2e9c1f:dynarmic/externals/dynarmic \
 		herumi:xbyak:v3.71-1460-g0d67fd1:xbyak/externals/xbyak \
