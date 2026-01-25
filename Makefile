@@ -1,5 +1,5 @@
 PORTNAME=	azahar
-DISTVERSION=	2124.1
+DISTVERSION=	2124.2
 CATEGORIES=	emulators
 
 MAINTAINER=	kreinholz@gmail.com
@@ -27,7 +27,7 @@ LIB_DEPENDS=	libCatch2.so:devel/catch2 \
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	azahar-emu
-GH_TAGNAME=	2124.1
+GH_TAGNAME=	2124.2
 GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/externals/nihstro \
 		azahar-emu:dynarmic:526227eebe1efff3fb14dbf494b9c5b44c2e9c1f:dynarmic/externals/dynarmic \
 		herumi:xbyak:v3.71-1460-g0d67fd1:xbyak/externals/xbyak \
@@ -48,12 +48,15 @@ GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/exte
 		azahar-emu:compatibility-list:eadcdfb84b6f3b95734e867d99fe16a9e8db717f:compatibilitylist/dist/compatibility_list \
         	KhronosGroup:SPIRV-Tools:v2022.4-759-ga62abcb4:SPIRVTools/externals/spirv-tools \
         	KhronosGroup:SPIRV-Headers:1.5.4.raytracing.fixed-411-gaa6cef1:SPIRVHeaders/externals/spirv-headers \
+        	Cyan4973:xxHash:e626a72bc2321cd320e953a0ccf1584cad60f363:xxHash/externals/xxHash \
         	arsenm:sanitizers-cmake:aab6948fa863bc1cbe5d0850bc46b9ef02ed4c1a:sanitizerscmake/externals/cubeb/cmake/sanitizers-cmake \
+        	mozilla:cubeb-coreaudio-rs:8f39e9fc3ad4868e6ff7188c52575087a1a02777:cubebcoreaudiors/externals/cubeb/src/cubeb-coreaudio-rs \
+        	mozilla:cubeb-pulse-rs:6bac666467e4a37cf057f0e17e8c9e8a024b060b:cubebpulsers/externals/cubeb/src/cubeb-pulse-rs \
+        	lioncash:biscuit:8bd0f7538b9ed7bedf90e789ffbd9eaeb484b28d:biscuit/externals/dynarmic/externals/biscuit \
 		azahar-emu:mcl:5fc4beaf331037649b10625736b41365defb4f50:mcl/externals/dynarmic/externals/mcl \
 		Tessil:robin-map:054ec5ad67440fcd65e0497e5a27ef31f53fcc7f:robinmap/externals/dynarmic/externals/robin-map \
 		zyantific:zycore-c:0b2432ced0884fd152b471d97ecf0258ff4d859f:zycorec/externals/dynarmic/externals/zycore \
-		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zydis/externals/dynarmic/externals/zydis \
-		Cyan4973:xxHash:e626a72bc2321cd320e953a0ccf1584cad60f363:xxHash/externals/xxHash
+		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zydis/externals/dynarmic/externals/zydis
 
 USES=		cmake:testing compiler:c++17-lang localbase:ldflags pkgconfig \
 		sdl
