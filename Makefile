@@ -1,5 +1,5 @@
 PORTNAME=	azahar
-DISTVERSION=	2124.3
+DISTVERSION=	2125.0-rc1
 CATEGORIES=	emulators
 
 MAINTAINER=	kreinholz@gmail.com
@@ -13,13 +13,14 @@ LICENSE_FILE_ISCL=	${WRKSRC}/externals/cubeb/LICENSE
 
 BROKEN_aarch64=	build fails on aarch64 with system boost-libs
 
-BUILD_DEPENDS=	boost-libs>0:devel/boost-libs \
-		nlohmann-json>0:devel/nlohmann-json \
+BUILD_DEPENDS=	nlohmann-json>0:devel/nlohmann-json \
 		cpp-httplib>0:www/cpp-httplib \
 		glslang>0:graphics/glslang \
 		vulkan-headers>0:graphics/vulkan-headers
 
-LIB_DEPENDS=	libCatch2.so:devel/catch2 \
+LIB_DEPENDS=	libboost_iostreams.so:devel/boost-libs \
+		libboost_serialization.so:devel/boost-libs \
+		libCatch2.so:devel/catch2 \
 		libfmt.so:devel/libfmt \
 		libinih.so:devel/inih \
 		libSoundTouch.so:audio/soundtouch \
@@ -27,7 +28,7 @@ LIB_DEPENDS=	libCatch2.so:devel/catch2 \
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	azahar-emu
-GH_TAGNAME=	2124.3
+GH_TAGNAME=	2125.0-rc1
 GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/externals/nihstro \
 		azahar-emu:dynarmic:526227eebe1efff3fb14dbf494b9c5b44c2e9c1f:dynarmic/externals/dynarmic \
 		herumi:xbyak:v3.71-1460-g0d67fd1:xbyak/externals/xbyak \
@@ -49,6 +50,7 @@ GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/exte
         	KhronosGroup:SPIRV-Tools:v2022.4-759-ga62abcb4:SPIRVTools/externals/spirv-tools \
         	KhronosGroup:SPIRV-Headers:1.5.4.raytracing.fixed-411-gaa6cef1:SPIRVHeaders/externals/spirv-headers \
         	Cyan4973:xxHash:e626a72bc2321cd320e953a0ccf1584cad60f363:xxHash/externals/xxHash \
+		libretro:libretro-common:7fc7feeddca391be65c94e6541381467684b814d:libretrocommon/externals/libretro-common/libretro-common \
         	arsenm:sanitizers-cmake:aab6948fa863bc1cbe5d0850bc46b9ef02ed4c1a:sanitizerscmake/externals/cubeb/cmake/sanitizers-cmake \
         	mozilla:cubeb-coreaudio-rs:8f39e9fc3ad4868e6ff7188c52575087a1a02777:cubebcoreaudiors/externals/cubeb/src/cubeb-coreaudio-rs \
         	mozilla:cubeb-pulse-rs:6bac666467e4a37cf057f0e17e8c9e8a024b060b:cubebpulsers/externals/cubeb/src/cubeb-pulse-rs \
@@ -59,17 +61,31 @@ GH_TUPLE=	neobrain:nihstro:f4d8659decbfe5d234f04134b5002b82dc515a44:nihstro/exte
 		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zydis/externals/dynarmic/externals/zydis
 
 USES=		cmake:testing compiler:c++17-lang localbase:ldflags pkgconfig \
-		sdl
-USE_SDL=	sdl2
-CMAKE_ON=	USE_SYSTEM_BOOST Boost_USE_STATIC_LIBS USE_SYSTEM_CATCH2 \
+		ssl
+
+CMAKE_ON=	USE_SYSTEM_BOOST Boost_USE_SHARED_LIBS USE_SYSTEM_CATCH2 \
 		USE_SYSTEM_FMT USE_SYSTEM_INIH USE_SYSTEM_SOUNDTOUCH \
 		USE_SYSTEM_SDL2 USE_SYSTEM_ENET USE_SYSTEM_JSON \
 		USE_SYSTEM_OPENSSL USE_SYSTEM_CPP_HTTPLIB USE_SYSTEM_GLSLANG \
 		USE_SYSTEM_VULKAN_HEADERS USE_SYSTEM_FFMPEG_HEADERS
 LDFLAGS+=	-Wl,--as-needed
 
-OPTIONS_DEFINE=		ALSA FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO VULKAN
-OPTIONS_DEFAULT=	FFMPEG JACK PULSEAUDIO QT6 SDL SNDIO VULKAN
+OPTIONS_DEFINE=		ALSA FFMPEG JACK PULSEAUDIO SNDIO VULKAN
+OPTIONS_DEFAULT=	FFMPEG JACK PULSEAUDIO SNDIO VULKAN
+OPTIONS_SINGLE=		GUI
+OPTIONS_SINGLE_GUI=	LIBRETRO QT
+OPTIONS_EXCLUDE:=	${OPTIONS_EXCLUDE} ${OPTIONS_SINGLE_GUI}
+OPTIONS_SLAVE?=		QT
+
+LIBRETRO_DESC=		libretro core for games/retroarch
+LIBRETRO_CMAKE_BOOL=	ENABLE_LIBRETRO
+LIBRETRO_PLIST_FILES=	lib/libretro/${PORTNAME}_libretro.so
+LIBRETRO_VARS=		CONFLICTS_INSTALL= DESKTOP_ENTRIES= PLIST= PORTDATA= PKGMESSAGE= SUB_FILES=
+LIBRETRO_CFLAGS +=	-fPIC
+QT_USES=		desktop-file-utils qt:6 shared-mime-info sdl
+USE_SDL=		sdl2
+QT_CMAKE_BOOL=		ENABLE_QT ENABLE_QT_TRANSLATION ENABLE_SDL2
+USE_QT+=		base multimedia tools translations svg
 
 CMAKE_ARGS+=		-DENABLE_OPENAL:BOOL=OFF \
 			-DENABLE_LIBUSB:BOOL=OFF 
@@ -93,12 +109,6 @@ VULKAN_DESC=		Vulkan renderer (experimental)
 VULKAN_BUILD_DEPENDS=	vulkan-headers>0:graphics/vulkan-headers
 VULKAN_CMAKE_BOOL=	ENABLE_VULKAN
 
-SDL_CMAKE_BOOL=	ENABLE_SDL2
-
-QT6_USES=	desktop-file-utils qt:6 shared-mime-info
-USE_QT+=	base multimedia tools translations svg
-QT6_CMAKE_BOOL=	ENABLE_QT ENABLE_QT_TRANSLATION
-
 .include <bsd.port.pre.mk>
 
 post-patch:
@@ -106,5 +116,18 @@ post-patch:
 		-e 's/@GIT_DESC@/${GH_TAGNAME}/' \
 		-e 's/@BUILD_FULLNAME@/${PORTVERSION}/' \
 		${WRKSRC}/src/common/scm_rev.cpp.in
+
+do-install-LIBRETRO-on:
+	${MKDIR} ${STAGEDIR}${PREFIX}/${LIBRETRO_PLIST_FILES:H}
+	${INSTALL_LIB} ${BUILD_WRKSRC}/bin/Release/${PORTNAME}_libretro.so \
+		${STAGEDIR}${PREFIX}/${LIBRETRO_PLIST_FILES:H}
+.if ${OPTIONS_SLAVE} == LIBRETRO
+.  for d in applications icons mime ${PORTNAME}
+	${RM} -r ${STAGEDIR}${PREFIX}/share/${d}
+.  endfor
+.endif
+
+do-install-QT-on:
+	${RM} ${STAGEDIR}${PREFIX}/lib/libcitra_room.a
 
 .include <bsd.port.post.mk>

@@ -15,3 +15,9 @@ cd azahar
 sudo make install clean
 
 (Alternatively, run 'make install clean' as root)
+
+As of azahar v2125.0-rc1, it's also possible to build a libretro core for azahar. To do so, create a directory labeled 'liberetro-azahar' and place it in the same containing folder as the 'azahar' port. The libretro-azahar slave port only requires one file: Makefile. Its contents can be copied from the /usr/ports/emulators/libretro-ppsspp slave port, the only required change being to the MASTERDIR line as follows:
+
+MASTERDIR=	${.CURDIR}/../azahar
+
+emulators/azahar and emulators/libretro-azahar can peacefully coexist, as the only file installed by libretro-azahar is ${LOCALBASE}/lib/libretro/azahar_libretro.so
