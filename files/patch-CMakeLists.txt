@@ -1,0 +1,25 @@
+--- CMakeLists.txt.orig	2026-03-29 17:26:38 UTC
++++ CMakeLists.txt
+@@ -107,6 +107,8 @@ option(USE_SYSTEM_SDL2 "Use the system SDL2 lib (inste
+ option(ENABLE_SDL2 "Enable using SDL2" ON)
+ option(USE_SYSTEM_SDL2 "Use the system SDL2 lib (instead of the bundled one)" OFF)
+ 
++option(USE_SYSTEM_XXHASH "Use the system xxHash lib (instead of the bundled one)" OFF)
++
+ # Set bundled qt as dependent options.
+ option(ENABLE_QT "Enable the Qt frontend" ON)
+ option(ENABLE_QT_TRANSLATION "Enable translations for the Qt frontend" OFF)
+@@ -539,6 +541,13 @@ if (USE_SYSTEM_SOUNDTOUCH)
+     add_library(SoundTouch INTERFACE)
+     target_link_libraries(SoundTouch INTERFACE "${SOUNDTOUCH_LIBRARIES}")
+     target_include_directories(SoundTouch INTERFACE "${SOUNDTOUCH_INCLUDE_DIRS}")
++endif()
++
++if (USE_SYSTEM_XXHASH)
++    find_package(PkgConfig)
++    if(PkgConfig_FOUND)
++	pkg_check_modules(libxxhash_PKGCONFIG IMPORTED_TARGET xxhash)
++    endif()
+ endif()
+ 
+ add_subdirectory(src)

@@ -1,0 +1,13 @@
+--- src/common/CMakeLists.txt.orig	2026-03-29 18:19:20 UTC
++++ src/common/CMakeLists.txt
+@@ -176,4 +176,8 @@ endif()
+     target_compile_options(citra_common PRIVATE ${SSE42_COMPILE_OPTION})
+ endif()
+ 
+-target_link_libraries(citra_common PUBLIC xxHash::xxhash)
+\ No newline at end of file
++if (USE_SYSTEM_XXHASH)
++    target_link_libraries(citra_common PUBLIC xxhash)
++else()
++    target_link_libraries(citra_common PUBLIC xxHash::xxhash)
++endif()
