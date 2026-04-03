@@ -18,15 +18,20 @@ BROKEN_aarch64=	build fails on aarch64 with system boost-libs
 BUILD_DEPENDS=	nlohmann-json>0:devel/nlohmann-json \
 		cpp-httplib>0:www/cpp-httplib \
 		glslang>0:graphics/glslang \
+		robin-map>0:devel/robin-map \
+		spirv-tools>0:graphics/spirv-tools \
 		vulkan-headers>0:graphics/vulkan-headers
 
 LIB_DEPENDS=	libboost_iostreams.so:devel/boost-libs \
 		libCatch2.so:devel/catch2 \
 		libenet.so:net/enet \
+		libfaad.so:audio/faad \
 		libfmt.so:devel/libfmt \
 		libinih.so:devel/inih \
 		libSoundTouch.so:audio/soundtouch \
-		libxxhash.so:devel/xxhash
+		libxxhash.so:devel/xxhash \
+		libZycore.so:devel/zycore-c \
+		libZydis.so:devel/zydis
 
 USES=		cmake:testing compiler:c++17-lang localbase:ldflags pkgconfig \
 		ssl tar:xz
@@ -36,6 +41,7 @@ CMAKE_ON=	Boost_USE_SHARED_LIBS \
 		USE_SYSTEM_CATCH2 \
 		USE_SYSTEM_CPP_HTTPLIB \
 		USE_SYSTEM_ENET \
+		USE_SYSTEM_FAAD \
 		USE_SYSTEM_FFMPEG_HEADERS \
 		USE_SYSTEM_FMT \
 		USE_SYSTEM_GLSLANG \
@@ -43,6 +49,7 @@ CMAKE_ON=	Boost_USE_SHARED_LIBS \
 		USE_SYSTEM_JSON \
 		USE_SYSTEM_OPENSSL \
 		USE_SYSTEM_SOUNDTOUCH \
+		USE_SYSTEM_SPIRV_TOOLS \
 		USE_SYSTEM_SDL2 \
 		USE_SYSTEM_VULKAN_HEADERS \
 		USE_SYSTEM_XXHASH
