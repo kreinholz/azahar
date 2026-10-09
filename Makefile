@@ -1,5 +1,5 @@
 PORTNAME=	azahar
-DISTVERSION=	2126.1.1
+DISTVERSION=	2126.2
 CATEGORIES=	emulators
 MASTER_SITES=	https://github.com/azahar-emu/${PORTNAME}/releases/download/${DISTVERSION}/
 DISTNAME=	${PORTNAME}-unified-source-${DISTVERSION}
@@ -13,6 +13,7 @@ LICENSE_COMB=	multi
 LICENSE_FILE_GPLv2+ =	${WRKSRC}/license.txt
 LICENSE_FILE_ISCL=	${WRKSRC}/externals/cubeb/LICENSE
 
+ONLY_FOR_ARCHS=	amd64 aarch64
 BROKEN_aarch64=	build fails on aarch64 with system boost-libs
 
 BUILD_DEPENDS=	nlohmann-json>0:devel/nlohmann-json \
@@ -42,7 +43,6 @@ CMAKE_ON=	Boost_USE_SHARED_LIBS \
 		USE_SYSTEM_CPP_HTTPLIB \
 		USE_SYSTEM_ENET \
 		USE_SYSTEM_FAAD \
-		USE_SYSTEM_FFMPEG_HEADERS \
 		USE_SYSTEM_FMT \
 		USE_SYSTEM_GLSLANG \
 		USE_SYSTEM_INIH \
@@ -58,14 +58,11 @@ CMAKE_OFF=	ENABLE_OPENAL
 
 LDFLAGS+=	-Wl,--as-needed
 
-OPTIONS_DEFINE=		ALSA FFMPEG JACK PULSEAUDIO SNDIO VULKAN
-OPTIONS_DEFAULT=	FFMPEG JACK PULSEAUDIO SNDIO VULKAN
+OPTIONS_DEFINE=		ALSA JACK PULSEAUDIO SNDIO VULKAN
+OPTIONS_DEFAULT=	JACK PULSEAUDIO SNDIO VULKAN
 
 ALSA_BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib
 ALSA_CMAKE_BOOL=	USE_ALSA
-
-FFMPEG_LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg
-FFMPEG_CMAKE_BOOL=	ENABLE_FFMPEG_AUDIO_DECODER ENABLE_FFMPEG_VIDEO_DUMPER
 
 JACK_BUILD_DEPENDS=	jackit>0:audio/jack
 JACK_CMAKE_BOOL=	USE_JACK
@@ -78,6 +75,7 @@ SNDIO_CMAKE_BOOL=	USE_SNDIO
 
 VULKAN_DESC=		Vulkan renderer (experimental)
 VULKAN_BUILD_DEPENDS=	vulkan-headers>0:graphics/vulkan-headers
+VULKAN_LIB_DEPENDS=	libvulkan.so:graphics/vulkan-loader
 VULKAN_CMAKE_BOOL=	ENABLE_VULKAN
 
 .if !defined(AZAHAR_SLAVE)
@@ -85,14 +83,14 @@ USES+=			desktop-file-utils qt:6 sdl shared-mime-info
 USE_QT=			base multimedia svg tools:build translations:run
 USE_SDL=		sdl2
 
-CMAKE_ARGS+=		-DENABLE_QT:BOOL=ON \
-			-DENABLE_QT_TRANSLATION:BOOL=ON \
-			-DENABLE_SDL2:BOOL=ON
+CMAKE_ON+=		ENABLE_QT \
+			ENABLE_QT_TRANSLATION \
+			ENABLE_SDL2
 .endif
 
 .if defined(AZAHAR_SLAVE)
-CMAKE_ON+=		ENABLE_LIBRETRO
-CFLAGS+=		-fPIC
+CMAKE_ON+=		ENABLE_LIBRETRO \
+			CMAKE_POSITION_INDEPENDENT_CODE
 .endif
 
 .include <bsd.port.pre.mk>
@@ -100,7 +98,7 @@ CFLAGS+=		-fPIC
 post-patch:
 	@${REINPLACE_CMD} -e 's/@GIT_BRANCH@/master/' \
 		-e 's/@GIT_DESC@/${GH_TAGNAME}/' \
-		-e 's/@BUILD_FULLNAME@/${PORTVERSION}/' \
+		-e 's/@BUILD_FULLNAME@/${DISTVERSION}/' \
 		${WRKSRC}/src/common/scm_rev.cpp.in
 
 .if defined(AZAHAR_SLAVE)
